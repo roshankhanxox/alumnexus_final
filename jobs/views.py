@@ -3,14 +3,49 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import JobPosting, Application, UserProfile
 from .forms import JobPostingForm, ApplicationForm
-from django_filters.views import FilterView
-from .filters import JobPostingFilter
 
 
-class JobListView(FilterView):
+# jobs/views.py
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import JobPosting
+
+
+from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import JobPosting
+
+
+class JobListView(LoginRequiredMixin, ListView):
     model = JobPosting
     template_name = "jobs/job_list.html"
-    filterset_class = JobPostingFilter
+    context_object_name = "jobs"
+
+    def get_queryset(self):
+        # Start with all job postings
+        queryset = JobPosting.objects.all()
+
+        # Get the search parameters from the GET request
+        title_query = self.request.GET.get("title", "")
+        location_query = self.request.GET.get("location", "")
+
+        # Apply filters if search parameters are present
+        if title_query:
+            queryset = queryset.filter(title__icontains=title_query)
+        if location_query:
+            queryset = queryset.filter(location__icontains=location_query)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Check if the user is in the 'alumni' group
+        context["is_alumni"] = self.request.user.groups.filter(name="alumni").exists()
+        # Add search parameters back to the context so they are preserved in the form
+        context["title_query"] = self.request.GET.get("title", "")
+        context["location_query"] = self.request.GET.get("location", "")
+        return context
 
 
 @login_required
@@ -43,6 +78,11 @@ def apply_for_job(request, pk):
 def send_resume_link(alumni, resume_link):
     # Implement email sending logic here
     pass
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import JobPostingForm
 
 
 @login_required

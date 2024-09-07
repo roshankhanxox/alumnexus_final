@@ -2,49 +2,50 @@
 
 {% block content %}
 <style>
-    /* Ensure labels and inputs have proper spacing */
-    .form-group {
-        margin-bottom: 1rem; /* Add space below each form group */
+    /* Adjust card spacing and padding */
+    .job-card {
+        margin-bottom: 1.5rem; /* Space between cards */
     }
-    
-    .form-label {
-        margin-bottom: 0.5rem; /* Add space below each label */
+
+    .card-body {
+        padding: 1.5rem; /* Padding inside the card */
     }
-    
-    .form-control {
-        padding: 0.5rem; /* Add padding inside form fields */
-    }
-    
-    /* Adjust button spacing */
-    .btn-outline-primary {
-        margin-top: 1rem; /* Add space above the button */
+
+    /* Adjust the margin and alignment for the search form */
+    .search-form {
+        width: 100%; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>
+
 <div class="container mt-4">
-    <h1 class="mb-4">Job Listings</h1>
-    
-    <form method="get" action="{% url 'job_list' %}" class="mb-4">
-        <div class="row mb-3">
-            {% for field in filter.form %}
-                <div class="col-md-4 mb-3">
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                        <!-- Manually add the 'form-control' class to each field -->
-                        <div class="form-control">
-                            {{ field }}
-                        </div>
-                        <div class="text-danger">{{ field.errors }}</div>
-                    </div>
-                </div>
-            {% endfor %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Create Post button if user is an alumnus -->
+        {% if user.is_authenticated and is_alumni %}
+            <a href="{% url 'post_job' %}" class="btn btn-outline-primary">Create Job Post</a>
+        {% endif %}
+    </div>
+
+    <!-- Search form -->
+    <form method="get" action="{% url 'job_list' %}" class="mb-4 search-form">
+        <div class="input-group">
+            <input type="text" name="title" id="id_title" class="form-control" placeholder="Search by Title" value="{{ request.GET.title }}" style="width: 250px;">
         </div>
-        <button type="submit" class="btn btn-outline-primary">Search</button>
+        <div class="input-group">
+            <input type="text" name="location" id="id_location" class="form-control" placeholder="Search by Location" value="{{ request.GET.location }}" style="width: 250px;">
+        </div>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
     </form>
-    
+
+    <!-- Job Cards -->
     <div class="row">
-        {% for job in filter.qs %}
+        {% for job in jobs %}
             <div class="col-md-4 mb-4">
-                <div class="card bg-dark text-light h-100">
+                <div class="card job-card bg-dark text-light h-100">
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="{% url 'job_detail' job.pk %}" class="text-light">{{ job.title }}</a>
@@ -60,5 +61,9 @@
             </div>
         {% endfor %}
     </div>
+    <div class="input-group-append">
+        <a href="{% url 'post_job' %}" class="btn btn-outline-primary">Post Job</a>
+    </div>
+    
 </div>
 {% endblock %}
