@@ -1,0 +1,28 @@
+{% extends 'events/base_events.html' %}
+
+{% block event_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-center display-4" style="margin-top: 20px; color: #004085;">Events Hub</h2>
+    <a href="{% url 'create_event' %}" class="btn btn-success btn-lg" style="margin-top: 20px;">Create Event</a>
+</div>
+
+<div class="row mt-4">
+    {% for event in events %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="width: 100%; height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #004085;">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                    <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">View Event</a>
+                    {% if user == event.created_by %}
+                        <a href="{% url 'delete_event' event.id %}" class="btn btn-danger">Delete Event</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

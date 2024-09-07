@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Apply for {{ job.title }}</h1>
+    <form method="post" class="bg-light p-4 rounded shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form.cover_letter.id_for_label }}" class="form-label text-dark">Cover Letter</label>
+            {{ form.cover_letter|as_widget(attrs={"class": "form-control", "rows": 6}) }}
+            <div class="text-danger">{{ form.cover_letter.errors }}</div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary mt-3">Submit Application</button>
+    </form>
+</div>
+{% endblock %}

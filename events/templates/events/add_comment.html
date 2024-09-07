@@ -1,0 +1,10 @@
+{% extends 'events/base_events.html' %}
+
+
+{% block event_content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+</form>
+{% endblock %}

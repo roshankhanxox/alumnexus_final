@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Post a Job</h1>
+    <form method="post" class="bg-light p-4 rounded shadow-sm">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="{{ form.title.id_for_label }}" class="form-label text-dark">Job Title</label>
+                <input type="text" name="title" id="{{ form.title.id_for_label }}" class="form-control" value="{{ form.title.value }}" />
+                <div class="text-danger">{{ form.title.errors }}</div>
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.company.id_for_label }}" class="form-label text-dark">Company</label>
+                <input type="text" name="company" id="{{ form.company.id_for_label }}" class="form-control" value="{{ form.company.value }}" />
+                <div class="text-danger">{{ form.company.errors }}</div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="{{ form.location.id_for_label }}" class="form-label text-dark">Location</label>
+                <input type="text" name="location" id="{{ form.location.id_for_label }}" class="form-control" value="{{ form.location.value }}" />
+                <div class="text-danger">{{ form.location.errors }}</div>
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.salary.id_for_label }}" class="form-label text-dark">Salary</label>
+                <input type="text" name="salary" id="{{ form.salary.id_for_label }}" class="form-control" value="{{ form.salary.value }}" />
+                <div class="text-danger">{{ form.salary.errors }}</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.description.id_for_label }}" class="form-label text-dark">Job Description</label>
+            <textarea name="description" id="{{ form.description.id_for_label }}" class="form-control">{{ form.description.value }}</textarea>
+            <div class="text-danger">{{ form.description.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.requirements.id_for_label }}" class="form-label text-dark">Job Requirements</label>
+            <textarea name="requirements" id="{{ form.requirements.id_for_label }}" class="form-control">{{ form.requirements.value }}</textarea>
+            <div class="text-danger">{{ form.requirements.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.expires_at.id_for_label }}" class="form-label text-dark">Expires At</label>
+            <input type="date" name="expires_at" id="{{ form.expires_at.id_for_label }}" class="form-control" value="{{ form.expires_at.value }}" />
+            <div class="text-danger">{{ form.expires_at.errors }}</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Post Job</button>
+    </form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,88 @@
+{% extends 'forum_base.html' %}
+
+{% block forum_content %}
+<style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #ffffff;
+        --accent-color: #cc8e1b;
+        --card-bg: #2a2a2a;
+        --button-bg: #333333;
+        --button-text: #e0a030;
+        --button-border: #444444;
+        --hover-color: #e0a030;
+        --navbar-height: 60px; /* Adjust according to your navbar height */
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Arial', sans-serif;
+        margin-top: var(--navbar-height); /* Ensures content starts below the navbar */
+    }
+
+    .text-gold {
+        color: var(--accent-color);
+    }
+
+    .form-group label {
+        color: var(--accent-color); /* Set label color to yellow */
+        font-weight: bold;
+    }
+
+    .form-control {
+        background-color: var(--card-bg);
+        border: 1px solid var(--button-border);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        background-color: var(--card-bg);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.2rem rgba(204, 142, 27, 0.25);
+        color: var(--text-color);
+    }
+
+    .btn-create-forum {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        border: none;
+        border-radius: 5px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-create-forum:hover {
+        background-color: var(--hover-color);
+        color: var(--text-color);
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-gold mb-4">Create a New Forum</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="form-control" value="{{ form.title.value }}" />
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" class="form-control">{{ form.description.value }}</textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}</label>
+            <select name="{{ form.topic.name }}" id="{{ form.topic.id_for_label }}" class="form-control">
+                {% for option in form.topic.field.queryset %}
+                    <option value="{{ option.pk }}" {% if option.pk == form.topic.value %}selected{% endif %}>
+                        {{ option }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn-create-forum">Create Forum</button>
+    </form>
+</div>
+{% endblock %}

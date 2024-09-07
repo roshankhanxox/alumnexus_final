@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">{{ job.title }}</h1>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Company:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.company }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Location:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.location }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Description:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.description }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Requirements:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.requirements }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Salary:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.salary }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <p><strong>Expires At:</strong></p>
+        </div>
+        <div class="col-md-9">
+            <p>{{ job.expires_at }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'apply_for_job' job.pk %}" class="btn btn-outline-primary mt-3">Apply Now</a>
+</div>
+{% endblock %}

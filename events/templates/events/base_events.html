@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<!-- Updated inline CSS for event title color and page background -->
+<style>
+    body {
+        background-color: #1c1c1c; /* Match the background color of the discussion forum */
+        color: #fff; /* Light text for readability */
+    }
+    
+    .container {
+        max-width: 1200px;
+    }
+    
+    .card {
+        border: none; /* Remove border for cleaner look */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow for cards */
+        background-color: #222; /* Dark background to match theme */
+    }
+    
+    .card-title {
+        color: #f1c40f; /* Yellow title to match theme */
+    }
+    
+    .card-body {
+        background-color: #222; /* Dark background for card body */
+        color: #fff; /* Light text for readability */
+    }
+    
+    .card-img-top {
+        border-bottom: 1px solid #444; /* Darker border between image and card body */
+    }
+    
+    .btn-primary {
+        background-color: #f1c40f; /* Primary yellow for buttons */
+        border-color: #f1c40f;
+        color: #222; /* Dark text on buttons */
+    }
+    
+    .btn-success {
+        background-color: #28a745; /* Green success buttons */
+        border-color: #28a745;
+        color: white; /* White text for better contrast */
+    }
+    
+    .btn-primary:hover, .btn-success:hover {
+        background-color: #e0b90f; /* Slightly darker yellow for hover */
+        border-color: #e0b90f;
+    }
+    
+    .btn-danger {
+        background-color: #dc3545; /* Red danger buttons */
+        border-color: #dc3545;
+        color: white; /* White text on danger buttons */
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker red for hover state */
+        border-color: #bd2130;
+    }
+    
+    h2, h3, h4 {
+        color: #f1c40f; /* Yellow headings for consistency with theme */
+    }
+    
+    h1 {
+        color: #f1c40f; /* Yellow for large heading in center */
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">{% block title %}{% endblock %}</h1>
+    {% block event_content %}{% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends 'forum_base.html' %}
+{% load widget_tweaks %}
+
+{% block forum_content %}
+<div class="container mt-5 px-4">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff9900;
+            --card-bg: #2c2c2c;
+            --hover-color: #ffb84d;
+            --input-bg: #333333;
+            --border-color: #444444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .forum-detail h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .forum-detail h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .forum-detail h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .forum-title {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+        }
+
+        .forum-description {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .comment-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(255, 153, 0, 0.2);
+        }
+
+        .comment-card.user-comment {
+            background-color: #333333;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-author {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .comment-date {
+            color: #b3b3b3;
+            font-size: 0.75rem;
+        }
+
+        .comment-body {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            background-color: var(--input-bg);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 153, 0, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--hover-color);
+            border-color: var(--hover-color);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <div class="forum-detail">
+        <!-- Forum Title and Description -->
+        <div class="forum-title">
+            <h2>{{ forum.title }}</h2>
+            <p class="forum-description">{{ forum.description }}</p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section mb-4">
+            <h3>Comments</h3>
+            <div class="space-y-4">
+                {% for comment in comments %}
+                    <div class="comment-card {% if comment.created_by == user %}user-comment{% endif %}">
+                        <div class="comment-header">
+                            <span class="comment-author">{{ comment.created_by.username }}</span>
+                            <span class="comment-date">{{ comment.created_at|date:"F j, Y, g:i a" }}</span>
+                        </div>
+                        <p class="comment-body">{{ comment.body }}</p>
+                    </div>
+                {% empty %}
+                    <div class="comment-card">
+                        <p class="comment-body">No comments yet. Be the first to comment!</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div class="mt-6">
+            <h4>Add a Comment</h4>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ comment_form.body|add_class:"form-control w-full h-32" }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

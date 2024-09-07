@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Ensure labels and inputs have proper spacing */
+    .form-group {
+        margin-bottom: 1rem; /* Add space below each form group */
+    }
+    
+    .form-label {
+        margin-bottom: 0.5rem; /* Add space below each label */
+    }
+    
+    .form-control {
+        padding: 0.5rem; /* Add padding inside form fields */
+    }
+    
+    /* Adjust button spacing */
+    .btn-outline-primary {
+        margin-top: 1rem; /* Add space above the button */
+    }
+</style>
+<div class="container mt-4">
+    <h1 class="mb-4">Job Listings</h1>
+    
+    <form method="get" action="{% url 'job_list' %}" class="mb-4">
+        <div class="row mb-3">
+            {% for field in filter.form %}
+                <div class="col-md-4 mb-3">
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        <!-- Manually add the 'form-control' class to each field -->
+                        <div class="form-control">
+                            {{ field }}
+                        </div>
+                        <div class="text-danger">{{ field.errors }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </form>
+    
+    <div class="row">
+        {% for job in filter.qs %}
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'job_detail' job.pk %}" class="text-light">{{ job.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ job.location }}</p>
+                        <a href="{% url 'job_detail' job.pk %}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center">No job postings available.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

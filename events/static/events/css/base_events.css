@@ -1,0 +1,58 @@
+/* events.css */
+
+body {
+    background-color: #f4f4f4; /* Light grey background for better contrast */
+    color: #333; /* Dark text for readability */
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    border: 1px solid #ddd; /* Light grey border for cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+}
+
+.card-title {
+    color: #333; /* Dark grey for titles */
+}
+
+.card-body {
+    background-color: black; /* White background for card body */
+    color: white /* Dark text for readability */
+}
+
+.card-img-top {
+    border-bottom: 1px solid #ddd; /* Border between image and card body */
+}
+
+.btn-primary {
+    background-color: #f1c40f; /* Yellow background for primary buttons */
+    border-color: #f1c40f; /* Yellow border */
+}
+
+.btn-success {
+    background-color: #28a745; /* Green background for success buttons */
+    border-color: #28a745; /* Green border */
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: #e0b90f; /* Slightly darker yellow for hover state */
+    border-color: #e0b90f; /* Darker yellow border for hover state */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red background for danger buttons */
+    border-color: #dc3545; /* Red border */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red for hover state */
+    border-color: #bd2130; /* Darker red border for hover state */
+}
+
+h2, h3, h4 {
+    color: #333; /* Dark grey for headings */
+}
+
