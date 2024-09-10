@@ -19,33 +19,38 @@
         body {
             font-family: 'Arial', sans-serif;
             background-color: var(--bg-color);
-            color: white;
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-top: 76px; /* Add padding to account for fixed navbar */
         }
 
         .navbar {
             background-color: var(--primary-color);
-            padding: 1rem 0;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
         }
 
         .navbar-brand, .nav-link {
             color: var(--text-color) !important;
+            transition: color 0.3s ease;
         }
 
-        .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+        .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover, .navbar-brand:hover {
             color: var(--secondary-color) !important;
         }
 
         .btn-outline-primary {
             color: var(--secondary-color);
             border-color: var(--secondary-color);
+            transition: all 0.3s ease;
         }
 
-        .btn-outline-primary:hover {
+        .btn-outline-primary:hover, .btn-outline-primary:focus {
             background-color: var(--secondary-color);
             color: var(--primary-color);
+            border-color: var(--secondary-color);
         }
 
         .carousel-item img {
@@ -57,16 +62,18 @@
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
-            text-align: center; /* Centering text in the carousel */
+            text-align: center;
         }
 
         .carousel-caption h2, .carousel-caption p {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .feature-card {
             transition: transform 0.3s ease-in-out;
+            background-color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
         }
 
         .feature-card:hover {
@@ -76,75 +83,91 @@
         footer {
             background-color: var(--primary-color);
             color: var(--text-color);
-            padding: 3rem 0;
-            margin-top: auto; /* Push footer to the bottom */
+            padding: 2rem 0;
+            margin-top: auto;
         }
 
         .social-icons a {
             color: var(--text-color);
             font-size: 1.5rem;
             margin-right: 1rem;
+            transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
             color: var(--secondary-color);
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .navbar-nav {
+                padding-top: 1rem;
+            }
+            .navbar-collapse {
+                background-color: var(--primary-color);
+            }
+            .d-flex {
+                margin-top: 1rem;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Alumnexus</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'forum_list' %}">Discussion Forum</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{%url 'job_list'%}">Jobs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'event_list' %}">Events Hub</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="d-flex">
-                {% if user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-                    </form>
-                {% else %}
-                    <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Sign in</a>
-                    <a class="btn btn-outline-primary" href="{% url 'register' %}">Register</a>
-                {% endif %}
-            </div>
+    
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Alumnexus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}" data-url="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features" data-url="#features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'forum_list' %}" data-url="{% url 'forum_list' %}">Discussion Forum</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'job_list' %}" data-url="{% url 'job_list' %}">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'event_list' %}" data-url="{% url 'event_list' %}">Events Hub</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+        <div class="d-flex">
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
+                </form>
+            {% else %}
+                <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Sign in</a>
+                <a class="btn btn-outline-primary" href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
 
     <!-- Main Content -->
-    {% block content %}
-    {% endblock %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
     <!-- Footer -->
-    <footer class="">
+    <footer>
         <div class="container text-center">
             <p>&copy; {{ current_year }} Alumnexus. All rights reserved.</p>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
             </div>
         </div>
     </footer>
