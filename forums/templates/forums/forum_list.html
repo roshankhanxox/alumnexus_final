@@ -3,21 +3,15 @@
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <div class="row mb-4">
-        <div class="col">
-            <!-- Removed the Discussion Forum title -->
-        </div>
-    </div>
-
     <style>
         :root {
             --bg-color: #1a1a1a;
             --text-color: #ffffff;
             --accent-color: #cc8e1b;
             --card-bg: #2a2a2a;
-            --hover-color: #e0a030; /* Color used for hover effects */
-            --button-bg: #333333; /* Greyish tone for button background */
-            --button-text: #e0a030; /* Color for button text (hover color) */
+            --hover-color: #e0a030;
+            --button-bg: #333333;
+            --button-text: #e0a030;
         }
 
         body {
@@ -32,9 +26,9 @@
 
         .forum-grid {
             display: grid;
-            grid-template-columns: 1fr 3fr 1.5fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
-            margin: 0 2rem;
+            margin: 0 1rem;
         }
 
         .sidebar {
@@ -42,9 +36,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: -webkit-sticky; /* Safari */
-            position: sticky;
-            top: 1rem; /* Adjust as needed */
+            margin-bottom: 2rem;
         }
 
         .sidebar h5 {
@@ -106,9 +98,6 @@
             padding: 1rem;
             margin-bottom: 1rem;
             transition: background-color 0.3s ease;
-            position: -webkit-sticky; /* Safari */
-            position: sticky;
-            top: 1rem; /* Adjust as needed */
         }
 
         .recent-reply:hover {
@@ -126,7 +115,7 @@
 
         .create-forum-btn {
             background-color: var(--button-bg);
-            color: var(--button-text); /* Use the hover color for button text */
+            color: var(--button-text);
             border: none;
             border-radius: 5px;
             padding: 0.75rem 1.5rem;
@@ -140,8 +129,25 @@
         }
 
         .create-forum-btn:hover {
-            background-color: var(--hover-color); /* Change to hover color on hover */
-            color: var(--text-color); /* Maintain text color for contrast */
+            background-color: var(--hover-color);
+            color: var(--text-color);
+        }
+
+        @media (min-width: 768px) {
+            .forum-grid {
+                grid-template-columns: 1fr 3fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .forum-grid {
+                grid-template-columns: 1fr 3fr 1.5fr;
+            }
+
+            .sidebar {
+                position: sticky;
+                top: 1rem;
+            }
         }
     </style>
 
@@ -158,7 +164,6 @@
                     </li>
                 {% endfor %}
             </ul>
-            <!-- Button placed below the filter -->
             <a href="{% url 'create_forum' %}" class="create-forum-btn">Create Forum</a>
         </aside>
 
@@ -195,4 +200,5 @@
             {% endfor %}
         </aside>
     </div>
+</div>
 {% endblock %}
