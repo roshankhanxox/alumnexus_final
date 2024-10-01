@@ -135,10 +135,11 @@ LOGIN_URL = "/users/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dl7n2c4hr",
-    "API_KEY": "934939333163652",
-    "API_SECRET": "6wzMkN8DTt1bsrYCNZxj7NgGbgI",
+    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": config("CLOUDINARY_API_KEY"),
+    "API_SECRET": config("CLOUDINARY_API_SECRET"),
 }
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
@@ -148,6 +149,7 @@ cloudinary.config(
     api_key=CLOUDINARY_STORAGE["API_KEY"],
     api_secret=CLOUDINARY_STORAGE["API_SECRET"],
 )
+
 CSRF_TRUSTED_ORIGINS = [
     'https://alumnexusfinal-production.up.railway.app',
 ]
